@@ -74,8 +74,8 @@ public class Database {
 
   public static void closeStatement(){
     try {
-      resultSet.close();
-      statement.close();
+      if(resultSet != null) resultSet.close();
+      if(statement != null) statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
