@@ -52,8 +52,7 @@ public class AirplaneLayout {
         }
         System.out.println();
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException ignored) {
     }
 
     Database.closeStatement();
