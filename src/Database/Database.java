@@ -5,6 +5,8 @@ import java.sql.*;
 /**
  * Created by kourpa on 3/13/15.
  *
+ *
+ *Paige Test is happening now
  */
 public class Database {
 	private static Connection connection;
