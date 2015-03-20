@@ -5,8 +5,6 @@ import java.sql.*;
 /**
  * Created by kourpa on 3/13/15.
  *
- *
- *Paige Test is happening now
  */
 public class Database {
 	private static Connection connection;
@@ -96,6 +94,51 @@ public class Database {
 		}
 	}
 
+	 
+  public static void addPassenger(){}
+  
+  public static void cancelBooking(){}
+  
+  public static void createUser(Sting firstName, String lastName, sSring email,String phone,){}
+  
+  public static void deleteUser(){}
+  
+  public static void cancelFlight(){}
+  
+  public static void delayFlight(){}
+  
+  public static void addLuggage(){}
+  
+  public static void removeLuggage(){}
+  
+  public static void addAirport(){}
+  
+  public static void addEmployee(){}
+  
+  public static void removeEmployee(){}
+  /**
+   * Prints a list of contact information for all passengers of a flight.
+   * @param type
+   *            ,delay, cancelation, unique message
+   * @param flightID
+   *            ,unique identifier for the flight
+   */
+  public static void notification(String type, int flightID){
+    resultSet = statement.executeQuery(""
+        + " SELECT method_of_notification FROM Passengers "
+        + " JOIN Itineraries"
+        + " ON  Passengers.itinerary_id=Itineraries.id"
+        + " where flight_list like '%,"+flightID+",%'");
+    
+   while (resultSet.next()) {
+    System.out.println(resultSet.getString(1));
+    /*todo: add parsing for phone numbers vs email, 
+     *      send messages
+     *      notifications off option
+     * */
+    }
+  }
+	
 	/**
 	 * Create a new flight to be added to the schedule.
 	 * This function must be called when a connection is already open.
@@ -178,6 +221,8 @@ public class Database {
 
 	}
 
+	public static void addPassenger(){}
+	
 	public static void main(String args[]) {
 		Database.connect();
 
