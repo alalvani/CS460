@@ -15,19 +15,21 @@ public class AirplaneLayout {
     Layout layout = new Layout();
     Character[][] seating = null;
     int totalSeats = 0;
-
+    
+    
+    Database database=new Database();
 
 
     String query = "select * from Planes where id = " + planeID;
 
     try {
-      ResultSet rs = Database.query(query);
+      ResultSet rs = database.query(query);
 
       rs.next();
       String aircraft_type = rs.getString("aircraft_type");
 
       query = "select * from Aircrafts where type = '" + aircraft_type + "'";
-      rs = Database.query(query);
+      rs = database.query(query);
 
       rs.next();
       String s = rs.getString("seating");
@@ -55,7 +57,7 @@ public class AirplaneLayout {
     } catch (SQLException ignored) {
     }
 
-    Database.closeStatement();
+    database.closeStatement();
 
     layout.planeID = planeID;
     layout.seating = seating;
@@ -64,9 +66,9 @@ public class AirplaneLayout {
     return layout;
   }
 
-  public static void main(String args[]){
-    Database.connect();
-    AirplaneLayout.getLayout(1);
-    Database.closeConnection();
-  }
+//  public static void main(String args[]){
+//    database.connect();
+//    AirplaneLayout.getLayout(1);
+//    database.closeConnection();
+//  }
 }

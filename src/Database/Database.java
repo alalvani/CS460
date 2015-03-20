@@ -11,7 +11,13 @@ public class Database {
 	private static Statement statement;
 	private static ResultSet resultSet;
 
-	public static void connect() {
+	public Database(){
+	  connect();
+	  
+	}
+	
+	
+	public void connect() {
 		// Load Driver
 		try {
 			System.out.println("Loading Driver.");
@@ -39,7 +45,7 @@ public class Database {
 	 *            , The desired query in the form of a String.
 	 * @return ResultSet resulting from the given query
 	 */
-	public static ResultSet query(String query) {
+	public ResultSet query(String query) {
 		if (connection == null)
 			System.err.println("Connection not initialized.");
 		else {
@@ -74,7 +80,7 @@ public class Database {
 		return resultSet;
 	}
 
-	public static void closeStatement() {
+	public void closeStatement() {
 		try {
 			if (resultSet != null)
 				resultSet.close();
@@ -86,14 +92,62 @@ public class Database {
 
 	}
 
-	public static void closeConnection() {
+	public void closeConnection() {
 		try {
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
+	 
+  public static void addPassenger(){}
+  
+  public static void cancelBooking(){}
+  
+  public static void createUser(String firstName, String lastName, String email,String phone){}
+  
+  public static void deleteUser(){}
+  
+  public static void cancelFlight(){}
+  
+  public static void delayFlight(){}
+  
+  public static void addLuggage(){}
+  
+  public static void removeLuggage(){}
+  
+  public static void addAirport(){}
+  
+  public static void addEmployee(){}
+  
+  public static void removeEmployee(){}
+  /**
+   * Prints a list of contact information for all passengers of a flight.
+   * @param type
+   *            ,delay, cancelation, unique message
+   * @param flightID
+   *            ,unique identifier for the flight
+   * @throws SQLException 
+   */
+  public void notification(String type, int flightID) throws SQLException{
+   
+    String query=""
+        + " SELECT method_of_notification FROM Passengers "
+        + " JOIN Itineraries"
+        + " ON  Passengers.itinerary_id=Itineraries.id"
+        + " where flight_list like '%,"+flightID+",%'";
+    System.out.println(query);
+    
+    resultSet = query(query);
+    
+   while (resultSet.next()) {
+    System.out.println(resultSet.getString(1));
+    /*TODO: add parsing for phone numbers vs email, 
+     *      send messages
+     *      notifications off option
+     * */
+    }
+  }
 	/**
 	 * Create a new flight to be added to the schedule.
 	 * This function must be called when a connection is already open.
@@ -121,7 +175,7 @@ public class Database {
 	 *            , base price
 	 * @throws SQLException
 	 */
-	private static void enterNewFlight(int flight_id, int plane_id,
+	public void enterNewFlight(int flight_id, int plane_id,
 			String flight_number, String departureAirport,
 			String arrivalAirport, String departureTime, String arrivalTime,
 			int freeSeats, String departureGate, String arrivalGate,
@@ -139,7 +193,7 @@ public class Database {
 		System.out.println("new flight created");
 	}
 	
-	private static void book(int flight_id, int passenger_id,
+	public void book(int flight_id, int passenger_id,
 			String seat) throws SQLException {
 
 		//concatinate the flight number on to the flight_list of the itinerary associated with 
@@ -149,7 +203,7 @@ public class Database {
 		//checks to make sure that there are enough flights available.
 		String query = "SELECT seats_available FROM Flights "
 				+ "WHERE flight_id="+flight_id;
-		resultSet=Database.query(query);
+		resultSet=query(query);
 		
 		if(resultSet.next()){
 			System.out.println(resultSet.getInt(1));
@@ -176,48 +230,5 @@ public class Database {
 
 	}
 
-	public static void main(String args[]) {
-		Database.connect();
-
-		String query = "SELECT depart.flight_number as d_flight_number,"
-				+ "       depart.depart_time as d_depart_time,"
-				+ "       depart.arrive_time as d_arrive_time, "
-				+ "       arrive.flight_number as a_flight_number,"
-				+ "       arrive.depart_time as a_depart_time,"
-				+ "       arrive.arrive_time as a_arrive_time"
-				+ "  FROM Flights_OLD depart, Flights_OLD arrive"
-				+ " WHERE lower(depart.depart_location) = '"
-				+ "abq"
-				+ "'"
-				+ "   AND lower(depart.arrive_location) = '"
-				+ "hou"
-				+ "'"
-				+ "   AND       depart.depart_time      = '"
-				+ "00:01"
-				+ "'"
-				+ "  AND depart.arrive_location = arrive.depart_location"
-				+ "  AND depart.depart_location = arrive.arrive_location"
-				+ "  AND depart.id <> arrive.id"
-				+ "  AND STR_TO_DATE(depart.arrive_time, \"%H:%i\") < STR_TO_DATE(arrive.depart_time, \"%H:%i\")"
-				+ "  AND depart.total_seats > depart.seats_taken"
-				+ "  AND arrive.total_seats > arrive.seats_taken;  ";
-
-		// String query = "select * from Flights_OLD";
-
-		ResultSet rs = Database.query(query);
-
-		System.out.println("reading query");
-		try {
-			while (rs.next()) {
-				String a_id = rs.getString("a_flight_number");
-				String d_id = rs.getString("d_flight_number");
-				System.out.println(a_id + " " + d_id);
-			}
-		} catch (SQLException ignored) {
-			System.out.println("Reading data failed");
-		}
-
-		Database.closeStatement();
-		Database.closeConnection();
-	}
+	
 }
