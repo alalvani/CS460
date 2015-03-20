@@ -1,7 +1,9 @@
 package Database;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import AirplaneLayout.*;
 
 public class EntryPoint
@@ -13,8 +15,10 @@ public class EntryPoint
     try
     {
       database.notification("delay", 1);
-      Layout lo=AirplaneLayout.getLayout(1);
-      System.out.println(lo.getSeating());
+      //Layout lo=AirplaneLayout.getLayout(1);
+     // Date date=new Date(1,1,1);
+      database.addUser("Paige", "Romero", "GuapoGato69@fake.co.uk", "1234567890", new Date(1,1,1), "123 fake st.", 0, "123456789", "cockpit", "princessTimeForPaige");
+     // System.out.println(lo.getSeating());
       
     }
     catch (SQLException e)
