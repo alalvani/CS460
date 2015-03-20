@@ -6,42 +6,45 @@ import java.sql.ResultSet;
 
 /**
  * Created by kourpa on 3/14/15.
- *
+ * 
  */
 public class Marketing {
-  public static float getPrice(Itinerary itinerary){
-    float price = 0f;
 
-    String query = "select current_price from Flights where ";
+	public static float getPrice(Itinerary itinerary) {
+		Database.connect();
+		
+		float price = 0f;
 
-    String[] flight_list = itinerary.flight_list;
+		String query = "select current_price from Flights where ";
 
-    for(int i = 0; i < flight_list.length - 1; i++){
-      query += "flight_id = " + flight_list[i] + " or ";
-    }
+		String[] flight_list = itinerary.flight_list;
 
-    query += "flight_i9d = " + flight_list[flight_list.length - 1];
+		for (int i = 0; i < flight_list.length - 1; i++) {
+			query += "flight_id = " + flight_list[i] + " or ";
+		}
 
+		query += "flight_id = "
+				+ flight_list[flight_list.length - 1];
 
-    ResultSet rs = Database.query(query);
+		ResultSet rs = Database.query(query);
 
-    try{
-      while(rs.next()){
-        price += rs.getInt("current_price");
-      }
-    } catch (Exception ignored) {
-    }
+		try {
+			while (rs.next()) {
+				price += rs.getInt("current_price");
+			}
+		} catch (Exception ignored) {
+		}
 
-    Database.closeStatement();
+		Database.closeStatement();
 
-    return price;
-  }
+		return price;
+	}
 
-  public static void main(String args[]){
-    Database.connect();
-    Itinerary foo = new Itinerary();
-    foo.flight_list = new String[] {"1", "2", "3"};
+	public static void main(String args[]) {
+		Database.connect();
+		Itinerary foo = new Itinerary();
+		foo.flight_list = new String[] { "1", "2", "3" };
 
-    System.out.println(Marketing.getPrice(foo));
-  }
+		System.out.println(Marketing.getPrice(foo));
+	}
 }
