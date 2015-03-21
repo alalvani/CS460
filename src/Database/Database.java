@@ -35,10 +35,16 @@ public class Database {
 
   /**
    * Must establish connection before attempting to query the database.
+   * Make sure to properly close the connection with
+   * resultSet.getStatement().close()
+   *
    * @param query, The desired query in the form of a String.
    * @return ResultSet resulting from the given query
    */
   public static ResultSet query(String query){
+    Statement statement;
+    ResultSet resultSet;
+
     if(connection == null) System.err.println("Connection not initialized.");
     else {
 
@@ -72,6 +78,12 @@ public class Database {
     return resultSet;
   }
 
+  /**
+   * DO NOT USE.
+   * Instead use to avoid mysql concurrency issues and close the statement cleanly
+   * resultSet.getStatement().close()
+   */
+  @Deprecated
   public static void closeStatement(){
     try {
       if(resultSet != null) resultSet.close();
