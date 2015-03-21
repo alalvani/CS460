@@ -35,11 +35,6 @@ public class FlightConnection {
 		FlightNode sourceNode = new FlightNode();
 		sourceNode.setAirport(startingAirport);
 		
-		//debug print source node
-		if(DEBUG){
-			System.out.println("\nSOURCE NODE");
-			System.out.println(sourceNode.toString());
-		}
 		
 		//insert source node into open list
 		openList.add(sourceNode);
@@ -150,7 +145,6 @@ public class FlightConnection {
 	 */
 	ArrayList<FlightNode> GenerateSuccessors(FlightNode q){
 		
-		//System.err.println("\nGENERATING SUCCESSORS FOR\n" + q.toString());
 
 		ArrayList<FlightNode> successors = new ArrayList<FlightNode>();
 
@@ -172,12 +166,9 @@ public class FlightConnection {
 				//calculate travel time
 
 				long layover = rs.getTimestamp("departure_time").getTime() - q.getArrivalTime();
-
-				
 				
 				//we do not consider flights with as negative layover
 				if(layover <= 0){
-					System.out.println("layover fail");
 					continue;
 				}
 
@@ -206,10 +197,6 @@ public class FlightConnection {
 				
 				//set parent
 				n.setParent(q);
-				
-				
-				
-				//System.out.println("\nGENERATED SUCCESSOR\n" + n.toString());
 				
 				//add the node to the list of successors
 				successors.add(n);
