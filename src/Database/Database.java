@@ -12,6 +12,15 @@ public class Database {
   private static ResultSet resultSet;
 
   public static void connect() {
+
+    try {
+      if(connection != null && !connection.isClosed()){
+        System.out.println("Connection already established.");
+        return;
+      }
+    } catch (SQLException ignored) {
+    }
+
     //Load Driver
     try {
       System.out.println("Loading Driver.");
@@ -89,7 +98,7 @@ public class Database {
       if(resultSet != null) resultSet.close();
       if(statement != null) statement.close();
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("Something went wrong, and you shouldn't be using this method anymore anyways.");
     }
 
   }
