@@ -20,7 +20,7 @@ public class Marketing {
       query += "flight_id = " + flight_list[i] + " or ";
     }
 
-    query += "flight_i9d = " + flight_list[flight_list.length - 1];
+    query += "flight_id = " + flight_list[flight_list.length - 1];
 
 
     ResultSet rs = Database.query(query);
